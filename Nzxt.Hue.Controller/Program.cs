@@ -75,7 +75,7 @@ namespace Nzxt.Hue.Controller
             {
                 return;
             }
-            var arguments = commandLine.Split(new[] { "Nzxt.Kraken.Controller.exe", "\"" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+            var arguments = commandLine.Split(new[] { "Nzxt.Hue.Controller.exe", "\"" }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
             if (string.IsNullOrEmpty(arguments))
             {
                 return;
