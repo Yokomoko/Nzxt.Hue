@@ -22,13 +22,14 @@ namespace Nzxt.Hue.Controller
         {
             var on = default(bool?);
             var off = default(bool?);
+            var channel = default(byte?);
             var color = default(Color);
-            GetParameters(out on, out off, out color);
-            return Main(on, off, color);
+            GetParameters(out on, out off, out channel, out color);
+            return Main(on, off, channel, color);
         }
 
 #pragma warning disable 0028
-        public static int Main(bool? on, bool? off, Color color)
+        public static int Main(bool? on, bool? off, byte? channel, Color color)
 #pragma warning restore 0028
         {
 
@@ -48,11 +49,23 @@ namespace Nzxt.Hue.Controller
                     }
                     if (color != null)
                     {
-                        manager.SetLightingColor(
-                            color.Red,
-                            color.Green,
-                            color.Blue
-                        );
+                        if (channel.HasValue)
+                        {
+                            manager.SetLightingColor(
+                                channel.Value,
+                                color.Red,
+                                color.Green,
+                                color.Blue
+                            );
+                        }
+                        else
+                        {
+                            manager.SetLightingColor(
+                                color.Red,
+                                color.Green,
+                                color.Blue
+                            );
+                        }
                     }
                 }
                 return 0;
@@ -64,10 +77,11 @@ namespace Nzxt.Hue.Controller
             return 0;
         }
 
-        private static void GetParameters(out bool? on, out bool? off, out Color color)
+        private static void GetParameters(out bool? on, out bool? off, out byte? channel, out Color color)
         {
             on = default(bool?);
             off = default(bool?);
+            channel = default(byte?);
             color = default(Color);
             var commandLine = default(string);
             GetCommandLine(out commandLine);
@@ -90,6 +104,7 @@ namespace Nzxt.Hue.Controller
             {
                 off = true;
             }
+            channel = GetParameter(parameters.Parameters, "channel");
             var red = GetParameter(parameters.Parameters, "r");
             var green = GetParameter(parameters.Parameters, "g");
             var blue = GetParameter(parameters.Parameters, "b");

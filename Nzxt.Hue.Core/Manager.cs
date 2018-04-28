@@ -128,7 +128,7 @@ namespace Nzxt.Hue.Core
             }
         }
 
-        private void SetLightingColor(byte channel, byte red, byte green, byte blue)
+        public void SetLightingColor(byte channel, byte red, byte green, byte blue)
         {
             this.ReadData[0] = 141;
             this.ReadData[1] = channel;
